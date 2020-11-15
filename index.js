@@ -6,7 +6,7 @@ var TurndownService = require('turndown');
 async function grab(turndownService, context, page, ageIoan, center) {
 
     if (fs.existsSync(center.name)) {
-        fs.rmdirSync(center.name, {recursive: true});
+        deleteFolderRecursive(center.name);
     }
 
     await page.goto(`https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${ageIoan}%2C${ageIoan + 1}&entity=${center.id}`);
@@ -30,6 +30,22 @@ async function grab(turndownService, context, page, ageIoan, center) {
 
     await context.clearCookies();
 }
+// because we're using an old node version on github actions...
+function deleteFolderRecursive(path) {
+    let files = [];
+    if (fs.existsSync(path)) {
+        files = fs.readdirSync(path);
+        files.forEach(function (file, index) {
+            let curPath = path + "/" + file;
+            if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                deleteFolderRecursive(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
+    }
+};
 
 (async () => {
 
