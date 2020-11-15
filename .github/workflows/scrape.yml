@@ -3,8 +3,8 @@ name: Scrape latest vgc data
 on:
   push:
   workflow_dispatch:
-  schedule:
-    - cron: '42 * * * *'
+#  schedule:
+#    - cron: '42 * * * *'
 
 jobs:
   scheduled:
