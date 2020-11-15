@@ -5,7 +5,7 @@ var TurndownService = require('turndown');
 
 async function grab(turndownService, context, page, ageIoan, center) {
 
-    await fs.rm(center.name, {recursive: true, force: true})
+    await fs.rmdir(center.name, {recursive: true, force: true})
 
     await page.goto(`https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${ageIoan}%2C${ageIoan + 1}&entity=${center.id}`);
 
@@ -38,14 +38,23 @@ async function grab(turndownService, context, page, ageIoan, center) {
 
     var turndownService = new TurndownService({emDelimiter: '*'}).remove('script');
 
-    const browser = await firefox.launch();
-    const context = await browser.newContext();
-    const page = await context.newPage();
+    let browser = null;
+    try {
+        browser = await firefox.launch();
+        const context = await browser.newContext();
+        const page = await context.newPage();
 
-    for (const center of centra) {
-        await grab(turndownService, context, page, ageIoan, center);
+        for (const center of centra) {
+            await grab(turndownService, context, page, ageIoan, center);
+        }
+    } catch (e) {
+        console.error("Something failed", e);
+    } finally {
+        if (browser != null) {
+            await browser.close();
+        }
     }
 
-    await browser.close();
+
     console.log("Finished.");
 })();
