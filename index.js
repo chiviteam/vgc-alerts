@@ -23,7 +23,7 @@ async function grab(turndownService, context, page, ageIoan, center) {
         await element.screenshot({path: `${center.name}/${dataId}.png`});
         let innerHtml = await element.innerHTML();
         //await fs.writeFile(`${center.name}/${dataId}.html`, `<div>${innerHtml}</div>`);
-        await fs.writeFile(`${center.name}/${dataId}.md`, turndownService.turndown(`<div>${innerHtml}</div>`));
+        await fs.writeFile(`${center.name}/${dataId}.md`, turndownService.turndown(`<div><div>${innerHtml}</div><img src="${dataId}.png"></div>`));
     }
 
     await context.clearCookies();
