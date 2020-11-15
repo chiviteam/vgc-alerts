@@ -1,11 +1,13 @@
 //@ts-check
 const {firefox} = require('playwright');
-const fs = require('fs').promises;
+const fs = require('fs');
 var TurndownService = require('turndown');
 
 async function grab(turndownService, context, page, ageIoan, center) {
 
-    await fs.rm(center.name, {recursive: true, force: true})
+    if (fs.existsSync(center.name)) {
+        fs.rmdirSync(center.name, {recursive: true});
+    }
 
     await page.goto(`https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${ageIoan}%2C${ageIoan + 1}&entity=${center.id}`);
 
@@ -23,7 +25,7 @@ async function grab(turndownService, context, page, ageIoan, center) {
         await element.screenshot({path: `${center.name}/${dataId}.png`});
         let innerHtml = await element.innerHTML();
         //await fs.writeFile(`${center.name}/${dataId}.html`, `<div>${innerHtml}</div>`);
-        await fs.writeFile(`${center.name}/${dataId}.md`, turndownService.turndown(`<div><div>${innerHtml}</div><img src="${dataId}.png"></div>`));
+        fs.writeFileSync(`${center.name}/${dataId}.md`, turndownService.turndown(`<div><div>${innerHtml}</div><img src="${dataId}.png"></div>`));
     }
 
     await context.clearCookies();
