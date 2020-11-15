@@ -5,7 +5,7 @@ var TurndownService = require('turndown');
 
 async function grab(turndownService, context, page, ageIoan, center) {
 
-    await fs.rmdir(center.name, {recursive: true, force: true})
+    await fs.rm(center.name, {recursive: true, force: true})
 
     await page.goto(`https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${ageIoan}%2C${ageIoan + 1}&entity=${center.id}`);
 
@@ -49,12 +49,11 @@ async function grab(turndownService, context, page, ageIoan, center) {
         }
     } catch (e) {
         console.error("Something failed", e);
+        return process.exit(1);
     } finally {
         if (browser != null) {
             await browser.close();
         }
+        console.log("Finished.");
     }
-
-
-    console.log("Finished.");
 })();
