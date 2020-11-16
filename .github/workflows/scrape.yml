@@ -16,6 +16,7 @@ jobs:
       - name: Install dependencies and scrape vgc
         run: npm install && npm run vgc
       - name: Commit and push if it changed
+        id: try-commit-push
         run: |-
           git config user.name "Automated"
           git config user.email "actions@users.noreply.github.com"
@@ -23,3 +24,13 @@ jobs:
           timestamp=$(date -u)
           git commit -m "Latest vgc data: ${timestamp}" || exit 0
           git push
+          additions="$(git diff HEAD --no-ext-diff --unified=0 --exit-code -a --no-prefix | egrep '^\+')"
+          echo "::set-output name=vgc-additions::$additions"
+      - name: Wire Messenger
+        uses: wireapp/github-action-wire-messenger@v1
+        if: ${{ success() && steps.try-commit-push.outputs.vgc-additions != ''}}
+        with:
+          email: ${{secrets.WIRE_EMAIL}}
+          password: ${{secrets.WIRE_PASSWORD}}
+          conversation: ${{secrets.WIRE_CONVERSATION}}
+          text: "Vgc alert: something changed : [See latest commit](https://github.com/chiviteam/vgc-alerts/commits/main)\n${{steps.try-commit-push.outputs.vgc-additions}}"
