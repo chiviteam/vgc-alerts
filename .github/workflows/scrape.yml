@@ -24,8 +24,7 @@ jobs:
           timestamp=$(date -u)
           git commit -m "Latest vgc data: ${timestamp}" || exit 0
           git push
-          additions=$(git diff HEAD --no-ext-diff --unified=0 --exit-code -a --no-prefix | egrep '^\+')
-          echo "::set-output name=vgc-additions::$additions"
+          echo "::set-output name=vgc-additions::blah"
       - name: Wire Messenger
         uses: wireapp/github-action-wire-messenger@v1
         if: ${{ success() && steps.try-commit-push.outputs.vgc-additions != ''}}
