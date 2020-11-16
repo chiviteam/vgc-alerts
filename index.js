@@ -52,7 +52,7 @@ function deleteFolderRecursive(path) {
     console.log("Starting...")
 
     const ageIoan = 3;
-    const centra = [{name: 'essegem', id: 109}, {name: 'demarkten', id: 244}, {name: 'nekkersdal', id: 241}]
+    const centra = [{name: 'essegem', id: 109}, {name: 'demarkten', id: 244}, {name: 'nekkersdal', id: 241}, {name: 'dezeyp', id: 276}, {name: 'deplatoo', id: 286}]
 
     var turndownService = new TurndownService({emDelimiter: '*'}).remove('script');
 
