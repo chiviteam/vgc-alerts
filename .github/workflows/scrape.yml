@@ -17,6 +17,7 @@ jobs:
         run: npm install && npm run vgc
       - name: Commit and push if changes occured
         id: try-commit-push
+        # multiline 'additions' are escaped according to https://github.community/t/set-output-truncates-multiline-strings/16852/2
         run: |-
           git config user.name "Automated"
           git config user.email "actions@users.noreply.github.com"
@@ -24,7 +25,10 @@ jobs:
           timestamp=$(date -u)
           git commit -m "Latest vgc data: ${timestamp}" || exit 0
           git push
-          additions="$(git diff HEAD^ HEAD --no-ext-diff --unified=0 --exit-code -a --no-prefix ':*.md' | egrep '^\+\+\+.*\/.*\.md$' | sed -r 's/\+\+\+ (\w+)\/(.*)\.md$/[GC \1 activiteit: \2]\(https\:\/\/github\.com\/chiviteam\/vgc-alerts\/blob\/main\/\1\/\2\.md\)/' | tr '\n' ' ')"
+          additions="$(git diff HEAD^ HEAD --no-ext-diff --unified=0 --exit-code -a --no-prefix ':*.md' | egrep '^\+\+\+.*\/.*\.md$' | sed -r 's/\+\+\+ (\w+)\/(.*)\.md$/[GC \1 activiteit: \2]\(https\:\/\/github\.com\/chiviteam\/vgc-alerts\/blob\/main\/\1\/\2\.md\)/')"
+          additions="${additions//'%'/'%25'}"
+          additions="${additions//$'\n'/'%0A'}"
+          additions="${additions//$'\r'/'%0D'}"
           echo "::set-output name=vgc-additions::$additions"
       - name: Notify if a step failure occured
         uses: wireapp/github-action-wire-messenger@v1
