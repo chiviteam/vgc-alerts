@@ -4,7 +4,14 @@ const fs = require('fs');
 var TurndownService = require('turndown');
 
 const age = 3;
-const centra = [{name: 'essegem', id: 109}, {name: 'demarkten', id: 244}, {name: 'nekkersdal', id: 241}, {name: 'dezeyp', id: 276}, {name: 'deplatoo', id: 286}]
+
+const centra = [
+    {name: 'essegem', id: 109},
+    {name: 'demarkten', id: 244},
+    {name: 'nekkersdal', id: 241},
+    {name: 'dezeyp', id: 276},
+    {name: 'deplatoo', id: 286}
+]
 
 async function grab(turndownService, context, page, age, center) {
 
@@ -33,6 +40,7 @@ async function grab(turndownService, context, page, age, center) {
 
     await context.clearCookies();
 }
+
 // because we're using an old node version on github actions...
 function deleteFolderRecursive(path) {
     let files = [];
