@@ -24,7 +24,7 @@ jobs:
           timestamp=$(date -u)
           git commit -m "Latest vgc data: ${timestamp}" || exit 0
           git push
-          additions="$(git diff HEAD^ HEAD --no-ext-diff --unified=0 --exit-code -a --no-prefix ':*.md'  | egrep '^\+')"
+          additions="git diff HEAD^ HEAD --no-ext-diff --unified=0 --exit-code -a --no-prefix ':*.md' | egrep '^\+\+\+' | sed -r 's/\+\+\+ (.*)/[\1]\(https\:\/\/github\.com\/chiviteam\/vgc-alerts\/blob\/main\/\1\)/' | tr '\n' ' '"
           echo "::set-output name=vgc-additions::$additions"
       - name: Wire Messenger
         uses: wireapp/github-action-wire-messenger@v1
