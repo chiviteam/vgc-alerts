@@ -3,13 +3,13 @@ const {firefox} = require('playwright');
 const fs = require('fs');
 var TurndownService = require('turndown');
 
-async function grab(turndownService, context, page, ageIoan, center) {
+async function grab(turndownService, context, page, age, center) {
 
     if (fs.existsSync(center.name)) {
         deleteFolderRecursive(center.name);
     }
 
-    await page.goto(`https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${ageIoan}%2C${ageIoan + 1}&entity=${center.id}`);
+    await page.goto(`https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}`);
 
     // this little trick makes relative links absolute -> this way we get nice absolute urls in generated files
     await page.$$eval('.transactivity a', (links) => {
@@ -51,7 +51,7 @@ function deleteFolderRecursive(path) {
 
     console.log("Starting...")
 
-    const ageIoan = 3;
+    const age = 3;
     const centra = [{name: 'essegem', id: 109}, {name: 'demarkten', id: 244}, {name: 'nekkersdal', id: 241}, {name: 'dezeyp', id: 276}, {name: 'deplatoo', id: 286}]
 
     var turndownService = new TurndownService({emDelimiter: '*'}).remove('script');
@@ -63,7 +63,7 @@ function deleteFolderRecursive(path) {
         const page = await context.newPage();
 
         for (const center of centra) {
-            await grab(turndownService, context, page, ageIoan, center);
+            await grab(turndownService, context, page, age, center);
         }
     } catch (e) {
         console.error("Something failed", e);
