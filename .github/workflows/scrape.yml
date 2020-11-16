@@ -26,6 +26,14 @@ jobs:
           git push
           additions="$(git diff HEAD^ HEAD --no-ext-diff --unified=0 --exit-code -a --no-prefix ':*.md' | egrep '^\+\+\+' | sed -r 's/\+\+\+ (.*)/[\1]\(https\:\/\/github\.com\/chiviteam\/vgc-alerts\/blob\/main\/\1\)/' | tr '\n' ' ')"
           echo "::set-output name=vgc-additions::$additions"
+      - name: Wire Error Message
+        uses: wireapp/github-action-wire-messenger@v1
+        if: ${{ failure() }}
+        with:
+          email: ${{secrets.WIRE_EMAIL}}
+          password: ${{secrets.WIRE_PASSWORD}}
+          conversation: ${{secrets.WIRE_CONVERSATION}}
+          text: "Vgc alert - something went wrong: [Check this](https://github.com/chiviteam/vgc-alerts/actions)"
       - name: Wire Messenger
         uses: wireapp/github-action-wire-messenger@v1
         if: ${{ success() && steps.try-commit-push.outputs.vgc-additions != ''}}
