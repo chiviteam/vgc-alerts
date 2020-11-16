@@ -15,7 +15,7 @@ jobs:
       - uses: microsoft/playwright-github-action@v1
       - name: Install dependencies and scrape vgc
         run: npm install && npm run vgc
-      - name: Commit and push if it changed
+      - name: Commit and push if changes occured
         id: try-commit-push
         run: |-
           git config user.name "Automated"
@@ -26,7 +26,7 @@ jobs:
           git push
           additions="$(git diff HEAD^ HEAD --no-ext-diff --unified=0 --exit-code -a --no-prefix ':*.md' | egrep '^\+\+\+' | sed -r 's/\+\+\+ (.*)/[\1]\(https\:\/\/github\.com\/chiviteam\/vgc-alerts\/blob\/main\/\1\)/' | tr '\n' ' ')"
           echo "::set-output name=vgc-additions::$additions"
-      - name: Wire Error Message
+      - name: Notify if a step failure occured
         uses: wireapp/github-action-wire-messenger@v1
         if: ${{ failure() }}
         with:
@@ -34,7 +34,7 @@ jobs:
           password: ${{secrets.WIRE_PASSWORD}}
           conversation: ${{secrets.WIRE_CONVERSATION}}
           text: "Vgc alert - something went wrong: [Check this](https://github.com/chiviteam/vgc-alerts/actions)"
-      - name: Wire Messenger
+      - name: Notify if additions occured with regards to the markdown files
         uses: wireapp/github-action-wire-messenger@v1
         if: ${{ success() && steps.try-commit-push.outputs.vgc-additions != ''}}
         with:
