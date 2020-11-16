@@ -2,7 +2,6 @@ name: Send messages to Wire on changes
 
 on:
   push:
-    paths-ignore: ['.gitignore', 'index.js', 'package.json', 'package-lock.json', 'README.md']
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   notify:
