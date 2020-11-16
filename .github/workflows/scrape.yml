@@ -45,4 +45,4 @@ jobs:
           email: ${{secrets.WIRE_EMAIL}}
           password: ${{secrets.WIRE_PASSWORD}}
           conversation: ${{secrets.WIRE_CONVERSATION}}
-          text: "Vgc alert - new additions: ${{steps.try-commit-push.outputs.vgc-additions}}"
+          text: "Vgc alert - new additions: \n${{steps.try-commit-push.outputs.vgc-additions}}"
