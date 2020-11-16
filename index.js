@@ -3,6 +3,9 @@ const {firefox} = require('playwright');
 const fs = require('fs');
 var TurndownService = require('turndown');
 
+const age = 3;
+const centra = [{name: 'essegem', id: 109}, {name: 'demarkten', id: 244}, {name: 'nekkersdal', id: 241}, {name: 'dezeyp', id: 276}, {name: 'deplatoo', id: 286}]
+
 async function grab(turndownService, context, page, age, center) {
 
     if (fs.existsSync(center.name)) {
@@ -50,9 +53,6 @@ function deleteFolderRecursive(path) {
 (async () => {
 
     console.log("Starting...")
-
-    const age = 3;
-    const centra = [{name: 'essegem', id: 109}, {name: 'demarkten', id: 244}, {name: 'nekkersdal', id: 241}, {name: 'dezeyp', id: 276}, {name: 'deplatoo', id: 286}]
 
     var turndownService = new TurndownService({emDelimiter: '*'}).remove('script');
 
