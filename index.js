@@ -19,7 +19,9 @@ async function grab(turndownService, context, page, age, center) {
         deleteFolderRecursive(center.name);
     }
 
-    await page.goto(`https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}`);
+    let searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}`;
+
+    await page.goto(searchUrl);
 
     // this little trick makes relative links absolute -> this way we get nice absolute urls in generated files
     await page.$$eval('.transactivity a', (links) => {
@@ -34,8 +36,7 @@ async function grab(turndownService, context, page, age, center) {
         let dataId = await element.getAttribute("data-id");
         await element.screenshot({path: `${center.name}/${dataId}.png`});
         let innerHtml = await element.innerHTML();
-        //await fs.writeFile(`${center.name}/${dataId}.html`, `<div>${innerHtml}</div>`);
-        fs.writeFileSync(`${center.name}/${dataId}.md`, turndownService.turndown(`<div><div>${innerHtml}</div><img src="${dataId}.png"></div>`));
+        fs.writeFileSync(`${center.name}/${dataId}.md`, turndownService.turndown(`<div><div>${innerHtml}</div><img src="${dataId}.png"><p><a href="${searchUrl}">Based on this search</a></p></div>`));
     }
 
     await context.clearCookies();
