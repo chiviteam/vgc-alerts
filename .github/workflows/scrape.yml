@@ -25,7 +25,7 @@ jobs:
           timestamp=$(date -u)
           git commit -m "Latest vgc data: ${timestamp}" || exit 0
           git push
-          additions="$(git diff HEAD^ HEAD --no-ext-diff --unified=0 --exit-code -a --no-prefix ':*.md' | egrep '^\+\+\+.*\/.*\.md$' | sed -r 's/\+\+\+ (\w+)\/(.*)\.md$/[GC \1 activiteit: \2]\(https\:\/\/github\.com\/chiviteam\/vgc-alerts\/blob\/main\/\1\/\2\.md\)/')"
+          additions="$(git diff HEAD^ HEAD --name-only --diff-filter=A --exit-code ':*.md' | sed -r 's/(\w+)\/(.*)\.md$/[GC \1 activiteit: \2]\(https\:\/\/github\.com\/chiviteam\/vgc-alerts\/blob\/main\/\1\/\2\.md\)/')"
           additions="${additions//'%'/'%25'}"
           additions="${additions//$'\n'/'%0A'}"
           additions="${additions//$'\r'/'%0D'}"
