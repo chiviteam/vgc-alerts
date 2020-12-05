@@ -6,6 +6,23 @@ var TurndownService = require('turndown');
 const age = 3;
 
 const centra = [
+    {name: 'kriekelaar', id: 108},
+    {name: 'linde', id: 106},
+    {name: 'maalbeek', id: 280},
+    {name: 'dam', id: 278},
+    {name: 'elzenhof', id: 320},
+    {name: 'everna', id: 131},
+    {name: 'huys', id: 242},
+    {name: 'kontakt', id: 245},
+    {name: 'nohva', id: 279},
+    {name: 'weule', id: 282},
+    {name: 'pianofabriek', id: 246},
+    {name: 'noey', id: 261},
+    {name: 'weyngaert', id: 321},
+    {name: 'wabo', id: 322},
+    {name: 'aximax', id: 152},
+    {name: 'sportdiesnt', id: 151},
+    {name: 'woontours', id: 418},
     {name: 'essegem', id: 109},
     {name: 'demarkten', id: 244},
     {name: 'nekkersdal', id: 241},
@@ -19,7 +36,9 @@ async function grab(turndownService, context, page, age, center) {
         deleteFolderRecursive(center.name);
     }
 
-    let searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}`;
+    //let searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}`;
+    // xmas period
+    let searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}&Period%5B%5D=347`;
 
     await page.goto(searchUrl);
 
