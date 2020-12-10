@@ -6,23 +6,23 @@ var TurndownService = require('turndown');
 const age = 3;
 
 const centra = [
-    {name: 'kriekelaar', id: 108},
-    {name: 'linde', id: 106},
-    {name: 'maalbeek', id: 280},
-    {name: 'dam', id: 278},
-    {name: 'elzenhof', id: 320},
-    {name: 'everna', id: 131},
-    {name: 'huys', id: 242},
-    {name: 'kontakt', id: 245},
-    {name: 'nohva', id: 279},
-    {name: 'weule', id: 282},
-    {name: 'pianofabriek', id: 246},
-    {name: 'noey', id: 261},
-    {name: 'weyngaert', id: 321},
-    {name: 'wabo', id: 322},
-    {name: 'aximax', id: 152},
-    {name: 'sportdiesnt', id: 151},
-    {name: 'woontours', id: 418},
+    {name: 'kriekelaar', id: 108, period: 347},
+    {name: 'linde', id: 106, period: 347},
+    {name: 'maalbeek', id: 280, period: 347},
+    {name: 'dam', id: 278, period: 347},
+    {name: 'elzenhof', id: 320, period: 347},
+    {name: 'everna', id: 131, period: 347},
+    {name: 'huys', id: 242, period: 347},
+    {name: 'kontakt', id: 245, period: 347},
+    {name: 'nohva', id: 279, period: 347},
+    {name: 'weule', id: 282, period: 347},
+    {name: 'pianofabriek', id: 246, period: 347},
+    {name: 'noey', id: 261, period: 347},
+    {name: 'weyngaert', id: 321, period: 347},
+    {name: 'wabo', id: 322, period: 347},
+    {name: 'aximax', id: 152, period: 347},
+    {name: 'sportdiesnt', id: 151, period: 347},
+    {name: 'woontours', id: 418, period: 347},
     {name: 'essegem', id: 109},
     {name: 'demarkten', id: 244},
     {name: 'nekkersdal', id: 241},
@@ -36,9 +36,11 @@ async function grab(turndownService, context, page, age, center) {
         deleteFolderRecursive(center.name);
     }
 
-    //let searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}`;
-    // xmas period
-    let searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}&Period%5B%5D=347`;
+    var searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}`;
+
+    if (center.period) {
+        searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}&Period%5B%5D=${center.period}`;
+    }
 
     await page.goto(searchUrl);
 
