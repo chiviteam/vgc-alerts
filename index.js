@@ -6,7 +6,7 @@ var TurndownService = require('turndown');
 const age = 3;
 
 const centra = [
-    {name: 'kriekelaar', id: 108, period: 347},
+    /*{name: 'kriekelaar', id: 108, period: 347},
     {name: 'linde', id: 106, period: 347},
     {name: 'maalbeek', id: 280, period: 347},
     {name: 'dam', id: 278, period: 347},
@@ -22,7 +22,7 @@ const centra = [
     {name: 'wabo', id: 322, period: 347},
     {name: 'aximax', id: 152, period: 347},
     {name: 'sportdiesnt', id: 151, period: 347},
-    {name: 'woontours', id: 418, period: 347},
+    {name: 'woontours', id: 418, period: 347},*/
     {name: 'essegem', id: 109},
     {name: 'demarkten', id: 244},
     {name: 'nekkersdal', id: 241},
