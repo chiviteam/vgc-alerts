@@ -38,3 +38,11 @@ jobs:
           password: ${{secrets.WIRE_PASSWORD}}
           conversation: ${{secrets.WIRE_CONVERSATION}}
           text: "Vgc alert - new additions: \n${{steps.try-commit-push.outputs.vgc-additions}}"
+      - name: Notify telegram
+        uses: appleboy/telegram-action@master
+        if: ${{ success() && steps.try-commit-push.outputs.vgc-additions != ''}}
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: "Vgc alert - new additions: \n${{steps.try-commit-push.outputs.vgc-additions}}"
+          format: markdown
