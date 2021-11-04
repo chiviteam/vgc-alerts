@@ -30,14 +30,6 @@ jobs:
           additions="${additions//$'\n'/'%0A'}"
           additions="${additions//$'\r'/'%0D'}"
           echo "::set-output name=vgc-additions::$additions"
-      - name: Notify if additions occured with regards to the markdown files
-        uses: wireapp/github-action-wire-messenger@v1
-        if: ${{ success() && steps.try-commit-push.outputs.vgc-additions != ''}}
-        with:
-          email: ${{secrets.WIRE_EMAIL}}
-          password: ${{secrets.WIRE_PASSWORD}}
-          conversation: ${{secrets.WIRE_CONVERSATION}}
-          text: "Vgc alert - new additions: \n${{steps.try-commit-push.outputs.vgc-additions}}"
       - name: Notify telegram
         uses: appleboy/telegram-action@master
         if: ${{ success() && steps.try-commit-push.outputs.vgc-additions != ''}}
