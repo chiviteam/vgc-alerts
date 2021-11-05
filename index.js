@@ -3,7 +3,7 @@ const {firefox} = require('playwright');
 const fs = require('fs');
 var TurndownService = require('turndown');
 
-const age = 3;
+const age = ~~((Date.now() - new Date('2017-07-20')) / 31557600000);
 
 const centra = [
     /*{name: 'kriekelaar', id: 108, period: 347},
@@ -36,10 +36,10 @@ async function grab(turndownService, context, page, age, center) {
         deleteFolderRecursive(center.name);
     }
 
-    var searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}`;
+    var searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age - 1}%2C${age + 1}&entity=${center.id}`;
 
     if (center.period) {
-        searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age}%2C${age + 1}&entity=${center.id}&Period%5B%5D=${center.period}`;
+        searchUrl = `https://tickets.vgc.be/activity/index?&vrijeplaatsen=1&Age%5B%5D=${age - 1}%2C${age + 1}&entity=${center.id}&Period%5B%5D=${center.period}`;
     }
 
     await page.goto(searchUrl);
