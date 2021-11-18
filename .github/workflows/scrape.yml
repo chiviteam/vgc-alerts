@@ -30,11 +30,12 @@ jobs:
           additions="${additions//$'\n'/'%0A'}"
           additions="${additions//$'\r'/'%0D'}"
           echo "::set-output name=vgc-additions::$additions"
+          echo "::set-output name=vgc-url::$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$(git rev-parse HEAD)"
       - name: Notify telegram
         uses: appleboy/telegram-action@master
         if: ${{ success() && steps.try-commit-push.outputs.vgc-additions != ''}}
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: "Vgc alert - new additions: \n${{steps.try-commit-push.outputs.vgc-additions}}"
+          message: "[Vgc alert - changes](${{steps.try-commit-push.outputs.vgc-url}}):\n${{steps.try-commit-push.outputs.vgc-additions}}"
           format: markdown
