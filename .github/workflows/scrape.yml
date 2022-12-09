@@ -2,8 +2,8 @@ name: Scrape latest vgc data
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '42 6-22 * * *'
+#  schedule:
+#    - cron: '42 6-22 * * *'
 
 jobs:
   scheduled:
